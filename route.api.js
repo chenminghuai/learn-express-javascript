@@ -32,4 +32,34 @@ router.post('/posts/create', function (req, res, next) {
   });
 });
 
+/* GET one post */
+router.get('/posts/one', function (req, res, next) {
+    var id = req.query.id;
+  
+    PostModel.findOne({_id: id}, function(err, post) {
+      if (err) {
+        res.json({ success: false });
+        return;
+      }
+  
+      res.json({ success: true, post });
+    });
+});
+
+
+/* PATCH edit post */
+router.post('/posts/edit', function(req, res, next) {
+    var id = req.body.id;
+    var title = req.body.title;
+    var content = req.body.content;
+  
+    PostModel.findOneAndUpdate({ _id: id }, { title, content }, function(err) {
+      if (err) {
+        res.json({ success: false });
+      } else {
+        res.json({ success: true });
+      }
+    });
+});
+
 module.exports = router;
