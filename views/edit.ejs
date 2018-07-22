@@ -36,12 +36,15 @@ var vm = new Vue({
     submit () {
     axios.patch('/api/v1/posts/' + postId,
       {
-        id: postId,
         title: vm.title,
         content: vm.content
       })
       .then(function(response) {
-        alert(JSON.stringify(response.data));
+        return response.data;
+      })
+      .then(function(data) {
+        // 注意这里，用的是既有的postId来跳转到文章页面
+        window.location = '/posts/show?id=' + postId
       })
       .catch(function(err) {
         alert(err);

@@ -11,11 +11,10 @@ router.get('/users', function(req, res, next) {
 router.get('/posts', function(req, res, next) {
     PostModel.find({}, {}, function (err, posts) {
       if (err) {
-        res.json({ success: false });
-        return;
+        next(err);
       }
   
-      res.json({ success: true, postsList: posts });
+      res.json({ postsList: posts });
     });
   });
 
@@ -25,12 +24,10 @@ router.get('/posts/:id', function (req, res, next) {
 
   PostModel.findOne({_id: id}, function(err, post) {
     if (err) {
-      res.json({ success: false });
-      return;
+      next(err);
     }
 
-    console.log(post);
-    res.json({ success: true, post });
+    res.json({ post });
   });
 });
 
@@ -42,11 +39,11 @@ router.post('/posts', function (req, res, next) {
   var post = new PostModel();
   post.title = title;
   post.content = content;
-  post.save(function(err) {
+  post.save(function(err, doc) {
     if (err) {
-      res.json({ success: false });
+      next(err);
     } else {
-      res.json({ success: true });
+      res.json({ post: doc });
     }
   });
 });
@@ -54,15 +51,15 @@ router.post('/posts', function (req, res, next) {
 
 /* PATCH edit post */
 router.patch('/posts/:id', function(req, res, next) {
-  var id = req.body.id;
+  var id = req.params.id;
   var title = req.body.title;
   var content = req.body.content;
 
   PostModel.findOneAndUpdate({ _id: id }, { title, content }, function(err) {
     if (err) {
-      res.json({ success: false });
+      next(err);
     } else {
-      res.json({ success: true });
+      res.json({}); // 不需要返回文章数据
     }
   });
 });

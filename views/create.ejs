@@ -30,7 +30,11 @@ var vm = new Vue({
         content: vm.content
       })
       .then(function(response) {
-        alert(JSON.stringify(response.data));
+        return response.data;
+      })
+      .then(function(data) {
+        // 注意这句
+        window.location = '/posts/show?id=' + data.post._id;
       })
       .catch(function(err) {
         alert(err);
