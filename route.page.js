@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 
 /* GET posts page. */
 router.get('/posts', function(req, res, next) {
-  res.render('posts', { title: 'posts'} );
+  res.render('posts', { title: '我的文章'} );
 });
 
 /* GET posts create page. */
@@ -24,7 +24,7 @@ router.get('/posts/show', function (req, res, next) {
   
   PostModel.findOne({_id: id}, function (err, post) {
     console.log(post);
-    post.content = marked(post.content);
+    post.mkContent = marked(post.content);
     console.log(post);
     res.render('show', {post});
   });
