@@ -1,5 +1,5 @@
 <div id="app", class="container">
-  <% if(currentUser && currentUser._id === post.authorId ) { %>
+  <% if(currentUser && currentUser._id.toString() === post.authorId.toString() ) { %>
   <!-- Split button -->
   <div class="btn-group pull-right">
     <button type="button" class="btn btn-default">操作</button>

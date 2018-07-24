@@ -5,12 +5,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var expressLayouts = require('express-ejs-layouts');
+var connectMongodb = require('connect-mongo');
+var session = require('express-session');
 
 var pageRouter = require('./route.page');
 var apiRouter = require('./route.api');
 var config = require('./config');
 var auth = require('./middlewares/auth');
 
+var mongoStore = new connectMongodb(session);
 var app = express();
 
 // view engine setup
@@ -24,6 +27,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(config.cookieName));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(
+  session({
+    secret: config.sessionSecret,
+    store: new mongoStore({
+      url: config.mongodbUrl
+    }),
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 app.use(auth.authUser);
 app.use('/', pageRouter);
 app.use('/api/v1', apiRouter);
