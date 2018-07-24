@@ -1,10 +1,11 @@
-var express = require('express');
-var bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
+import express from 'express';
 
-var router = express.Router();
-var PostModel = require('./models/post');
-var UserModel = require('./models/user');
-var config = require('./config');
+import PostModel from './models/post';
+import UserModel from './models/user';
+import config from './config';
+
+const router = express.Router();
 
 /* GET users lists. */
 router.get('/users', function(req, res, next) {
@@ -119,5 +120,4 @@ router.post('/signin', function(req, res, next) {
   });
 });
 
-
-module.exports = router;
+export default router;

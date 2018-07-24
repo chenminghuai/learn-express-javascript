@@ -1,7 +1,7 @@
-var config = require('../config');
-var UserModel = require('../models/user');
+import config from '../config';
+import UserModel from '../models/user';
 
-function authUser(req, res, next) {
+export function authUser(req, res, next) {
   res.locals.currentUser = null;
 
   if (req.session && req.session.user) {
@@ -30,9 +30,7 @@ function authUser(req, res, next) {
   }
 }
 
-function adminRequired(req, res, next) {
-  console.log(req.session);
-  console.log(req.session.user);
+export function adminRequired(req, res, next) {
 
   if (!req.session || !req.session.user) {
     let err = new Error('需要登陆');
@@ -50,5 +48,3 @@ function adminRequired(req, res, next) {
   
   next();
 }
-
-module.exports = { authUser, adminRequired };

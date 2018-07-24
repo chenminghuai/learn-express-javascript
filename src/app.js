@@ -1,17 +1,17 @@
 require('./models/init');
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var expressLayouts = require('express-ejs-layouts');
-var connectMongodb = require('connect-mongo');
-var session = require('express-session');
+import express from 'express';
+import expressLayouts from 'express-ejs-layouts';
+import path from 'path';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import connectMongodb from 'connect-mongo';
+import session from 'express-session';
 
-var pageRouter = require('./route.page');
-var apiRouter = require('./route.api');
-var config = require('./config');
-var auth = require('./middlewares/auth');
+import config from './config';
+import * as auth from './middlewares/auth';
+import apiRouter from './route.api';
+import pageRouter from './route.page';
 
 var mongoStore = new connectMongodb(session);
 var app = express();
@@ -22,8 +22,8 @@ app.set('view engine', 'ejs');
 app.use(expressLayouts);
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser(config.cookieName));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -69,4 +69,4 @@ app.use(function(err, req, res, next) {
   })
 });
 
-module.exports = app;
+export default app;
