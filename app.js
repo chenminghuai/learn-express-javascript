@@ -8,6 +8,8 @@ var expressLayouts = require('express-ejs-layouts');
 
 var pageRouter = require('./route.page');
 var apiRouter = require('./route.api');
+var config = require('./config');
+var auth = require('./middlewares/auth');
 
 var app = express();
 
@@ -19,9 +21,10 @@ app.use(expressLayouts);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(config.cookieName));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(auth.authUser);
 app.use('/', pageRouter);
 app.use('/api/v1', apiRouter);
 
