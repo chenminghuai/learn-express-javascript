@@ -43,6 +43,7 @@ router.post('/posts', function (req, res, next) {
   var post = new PostModel();
   post.title = title;
   post.content = content;
+  post.authorId = res.locals.currentUser._id;
   post.save(function(err, doc) {
     if (err) {
       next(err);
