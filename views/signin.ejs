@@ -32,7 +32,8 @@ var vm = new Vue({
           window.location = '/';
         })
         .catch(function(err) {
-          alert(err);
+          console.log(err.response.data.error);
+          alert(err.response.data.error);
         })
     }
   }
